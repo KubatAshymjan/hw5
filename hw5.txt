@@ -1,0 +1,61 @@
+-- 1
+SELECT * FROM customers
+WHERE country IN ('Canada');
+
+-- 2
+SELECT country FROM customers;
+
+-- 3
+SELECT count(*) FROM orders;
+
+-- 4
+SELECT max(order_number) FROM orders;
+
+-- 5
+SELECT * FROM orders;
+
+-- 6
+SELECT total_amount FROM orders
+WHERE order_date between '2014-01-01' and '2014-12-31';
+
+-- 7
+SELECT cast(AVG(total_amount)as decimal(6,2))
+FROM orders;
+
+-- 8
+SELECT first_name, avg(total_amount) FROM orders
+join customers c on orders.customer_id = c.id
+group by first_name;
+
+-- 9
+SELECT * FROM customers
+WHERE country IN('Brazil', 'Spain');
+
+-- 10
+SELECT * FROM orders WHERE order_date > to_timestamp('Dec 31 2012','MON DO YYYY') AND total_amount<100;
+
+-- 11
+SELECT * FROM customers WHERE country IN ('Spain','Italy','Germania','France') ORDER BY country ASC;
+
+-- 12
+SELECT country FROM supplier;
+
+-- 13
+SELECT * FROM customers WHERE customers.first_name LIKE('Jo%');
+
+-- 14
+SELECT * FROM customers WHERE customers.first_name LIKE('___a%');
+
+
+-- 15
+SELECT count(customers.id),country FROM customers GROUP BY country;
+-- 16
+SELECT count(customers.id),country FROM customers GROUP BY country ORDER BY count(customers.id) DESC;
+-- 17
+SELECT first_name, sum(total_amount), count(quantity) FROM orders
+    join customers c on orders.customer_id = c.id
+join order_item oi on orders.id = oi.order_id group by first_name order by sum(total_amount);
+-- 18
+SELECT first_name, sum(total_amount),count(quantity ) FROM orders
+    join customers c on orders.customer_id = c.id join order_item io on orders.id = io.order_id
+group by first_name having count(quantity)>20;
